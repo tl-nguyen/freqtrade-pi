@@ -2,7 +2,7 @@
 
 ## Requirements:
 - Raspberry PI (or similar arm boards like Orange PI, RockPI, etc.) with installed Raspbian OS (or some compatible Debian distros) with enabled SSH
-- Bash terminal on your PC/Mac (for Windows user you can use `Git BASH` terminal)
+- Bash shell on your PC/Mac (for Windows user you can use `Git BASH` terminal)
 - Git on your PC/Mac
 
 ## Software installation:
@@ -55,6 +55,8 @@ cd freqtrade-with-docker-and-pi
 
 ## Run multiple strategies
 You can run multiple strategies by repeating all of the steps from `Add a new strategy bot` and `Start the strategy bot` sections. With Raspberry PI 3 on Raspbian Lite, you can run up to 4 strategies simultanously
+
+You have to create a telegram bot for each of your strategy if you want to use telegram to manage your trades.
 
 
 
