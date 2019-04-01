@@ -8,7 +8,7 @@ if [ -z "$USERNAME_AT_SERVER" ]; then
  echo "Example: bash remote_update.sh pi@192.168.1.10 default_strategy"
  echo "!!!If strategy container name is missing, the script will update all of the strategies"
 elif [ -z "$STRATEGY_CONTAINER_NAME" ]; then
- scp -r ./freqtrade/strategies/* $USERNAME_AT_SERVER:~/freqtrade/strategies
+ scp -r ./freqtrade/strategies/*.py ./freqtrade/strategies/*.json $USERNAME_AT_SERVER:~/freqtrade/strategies
 else
- scp ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.* $USERNAME_AT_SERVER:~/freqtrade/strategies 
+ scp ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.py ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.json $USERNAME_AT_SERVER:~/freqtrade/strategies 
 fi
