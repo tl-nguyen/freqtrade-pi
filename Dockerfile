@@ -1,4 +1,6 @@
-FROM python:3.7.2-slim-stretch
+FROM balenalib/raspberrypi3-debian:stretch
+
+RUN [ "cross-build-start" ]
 
 RUN apt-get update \
  && apt-get -y install wget curl build-essential libssl-dev libffi-dev \
@@ -26,11 +28,14 @@ RUN wget https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/Berryco
 
 # Install dependencies
 COPY requirements.txt /freqtrade/
-RUN ~/berryconda3/bin/conda install -y numpy pandas scipy \
+RUN sed -i -e '/^numpy==/d' -e '/^pandas==/d' -e '/^scipy==/d' ./requirements.txt \
+ && ~/berryconda3/bin/conda install -y numpy pandas scipy \
  && ~/berryconda3/bin/pip install -r requirements.txt --no-cache-dir
 
 # Install and execute
 COPY . /freqtrade/
 RUN ~/berryconda3/bin/pip install -e . --no-cache-dir
+
+RUN [ "cross-build-end" ]
 
 ENTRYPOINT ["/root/berryconda3/bin/python","./freqtrade/main.py"]
