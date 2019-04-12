@@ -20,22 +20,17 @@ cd freqtrade-with-docker-and-pi
 ```
 
 ## Add a new strategy bot:
-- Add strategy class file, json config file and database sqlite file into `freqtrade-with-docker-and-pi/freqtrade/strategies` folder.
+- Add strategy class file, json config file into `freqtrade-with-docker-and-pi/freqtrade/strategies` folder.
 
-- Rename the strategy class file, json config file and database sqlite file with the same name (the extensions stay the same). For example: `bbrsi.py`, `bbrsi.json`, `bbrsi.sqlite`
+- Rename the strategy class file, json config file with the same name (the extensions stay the same). For example: `bbrsi.py`, `bbrsi.json`
 
-- Move/Update the strategy files into the PI using `remote_update.sh` script. It's important to use the name of the files (in this case `bbrsi`) as the strategy name
+- Move/Update the strategy files into the PI using `remote_update.sh` script. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files
 ```
 ./remote_update.sh pi@192.168.0.10 bbrsi
 ```
 
-- Or you can move/update all of the strategies that you have in the strategies folder by not specify the concrete strategy name
-```
-./remote_update.sh pi@192.168.0.10
-```
-
 ## Start the strategy bot
-- To start/restart the strategy bot you have to execute the `remote_start.sh` script (you can run this again whenever you update the strategy files)
+- To start the strategy bot you have to execute the `remote_start.sh` script
 
 ! Let's say that BBRSI is the class name of your strategy (The class defined in the `bbrsi.py` file)
 ```
@@ -51,6 +46,18 @@ cd freqtrade-with-docker-and-pi
 - Use `remote_stop.sh` script to stop and remove the bot
 ```
 ./remote_stop.sh pi@192.168.0.10 bbrsi
+```
+
+## Strategy logs
+- Use `remote_logs.sh` script to see the strategy logs in real time
+```
+./remote_logs.sh pi@192.168.0.10 bbrsi
+```
+
+## Check which strategies are running
+- Use `remote_ps.sh` script to see which strategies are running right now
+```
+./remote_ps.sh pi@192.168.0.10
 ```
 
 ## Run multiple strategies
