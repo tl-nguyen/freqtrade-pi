@@ -35,7 +35,7 @@ hostname: 192.168.0.10
 ```
 ssh-keygen; ssh-copy-id pi@192.168.0.10
 ```
-Just press enter a few times, the keys will created by default in ~/.ssh/ directory. After that you will be asked to enter your RPI password in order for the public to be placed there. When it is done, you can ssh to your RPI directly without the password
+Press enter a few times when be asked to enter location or passphrase (or enter them if you know what are they about), the keys will be created by default in ~/.ssh/ directory. After that you will be asked to enter your RPI password in order for the public key to be placed there. When it is done, you can ssh to your RPI directly without the password
 
 ## Add a new strategy bot:
 - Add strategy class file, json config file into `freqtrade-with-docker-and-pi/freqtrade/strategies` folder.
