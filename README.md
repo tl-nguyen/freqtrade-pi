@@ -20,12 +20,12 @@ username: pi
 hostname: 192.168.0.10
 ```
 
-- Learn more about the fp.sh script:
+- Use `help` command to learn more about the fp.sh script:
 ```
 ./fp.sh help
 ```
 
-- Install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into RPI home directory:
+- Use `install` command to install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into RPI home directory:
 ```
 ./fp.sh install
 ```
@@ -41,7 +41,7 @@ Press enter a few times when be asked to enter location or passphrase (or enter 
 
 - Rename the strategy class file, json config file with the same name (the extensions stay the same). For example: `bbrsi.py`, `bbrsi.json`
 
-- Move/Update the strategy files into the PI. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files:
+- Use `update` command to Move/Update the strategy files into the PI. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files:
 ```
 ./fp.sh update -s bbrsi
 ```
@@ -55,7 +55,7 @@ strategies:
     bbrsi: BBRSI
 ```
 
-- Start the strategy:
+- Use `start` command to start the strategy:
 ```
 ./fp.sh start -s bbrsi
 ```
@@ -66,19 +66,19 @@ strategies:
 ```
 
 ## Stop the strategy bot
-- Use `remote_stop.sh` script to stop and remove the bot:
+- Use `stop` command to stop and remove the bot:
 ```
 ./fp.sh stop -s bbrsi
 ```
 
 ## Strategy logs
-- Use `remote_logs.sh` script to see the strategy logs in real time:
+- Use `logs` command to see the strategy logs in real time:
 ```
 ./fp.sh logs -s bbrsi
 ```
 
 ## Check which strategies are running
-- Use `remote_ps.sh` script to see which strategies are running right now:
+- Use `ps` command to see which strategies are running right now:
 ```
 ./fp.sh ps
 ```
