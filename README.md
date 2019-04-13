@@ -5,6 +5,12 @@
 - Bash shell on your PC/Mac (for Windows user you can use `Git BASH` terminal)
 - Git on your PC/Mac
 
+## fp.sh Manual
+- Learn more about the fp.sh script
+```
+./fp.sh help
+```
+
 ## Software installation:
 ! From now on, let's say that you have a PI running at `192.168.0.10`, and your username is `pi`
 
