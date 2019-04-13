@@ -14,50 +14,68 @@ git clone https://github.com/tl-nguyen/freqtrade-with-docker-and-pi.git
 cd freqtrade-with-docker-and-pi
 ```
 
+- Modify the `config.yml` file. Add username and hostname of your RPI.
+```
+username: pi
+hostname: 192.168.0.10
+```
+
 - Install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into PI home directory using remote_install.sh script
 ```
-./remote_install.sh pi@192.168.0.10
+./fp.sh install
 ```
+
+- Generate SSH keys so you won't be asked when sending commands to your RPI
+```
+ssh-keygen; ssh-copy-id pi@192.168.0.10
+```
+Just press enter a few times, the keys will created by default in ~/.ssh/ directory. After that you will be asked to enter your RPI password in order for the public to be placed there. When it is done, you can ssh to your RPI directly without the password
 
 ## Add a new strategy bot:
 - Add strategy class file, json config file into `freqtrade-with-docker-and-pi/freqtrade/strategies` folder.
 
 - Rename the strategy class file, json config file with the same name (the extensions stay the same). For example: `bbrsi.py`, `bbrsi.json`
 
-- Move/Update the strategy files into the PI using `remote_update.sh` script. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files
+- Move/Update the strategy files into the PI. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files.
 ```
-./remote_update.sh pi@192.168.0.10 bbrsi
+./fp.sh update -s bbrsi
 ```
 
 ## Start the strategy bot
-- To start the strategy bot you have to execute the `remote_start.sh` script
+- If BBRSI is the class name of your strategy (The class defined in the `bbrsi.py` file)
 
-! Let's say that BBRSI is the class name of your strategy (The class defined in the `bbrsi.py` file)
+- Modify `config.yml`. Add your strategy file name and strategy class name associated with it in the strategies section.
 ```
-./remote_start.sh pi@192.168.0.10 bbrsi BBRSI
+strategies:
+    bbrsi: BBRSI
+```
+
+- Start the strategy
+```
+./fp.sh start -s bbrsi
 ```
 
 - You can start the bot with additional freqtrade params. For Example: --dynamic-whitelist
 ```
-./remote_start.sh pi@192.168.0.10 bbrsi BBRSI "--dynamic-whitelist 100"
+./fp.sh start -s bbrsi -p "--dynamic-whitelist 100"
 ```
 
 ## Stop the strategy bot
 - Use `remote_stop.sh` script to stop and remove the bot
 ```
-./remote_stop.sh pi@192.168.0.10 bbrsi
+./fp.sh stop -s bbrsi
 ```
 
 ## Strategy logs
 - Use `remote_logs.sh` script to see the strategy logs in real time
 ```
-./remote_logs.sh pi@192.168.0.10 bbrsi
+./fp.sh logs bbrsi
 ```
 
 ## Check which strategies are running
 - Use `remote_ps.sh` script to see which strategies are running right now
 ```
-./remote_ps.sh pi@192.168.0.10
+./fp.sh ps
 ```
 
 ## Run multiple strategies

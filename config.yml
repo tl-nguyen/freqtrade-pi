@@ -1,0 +1,4 @@
+username: pi
+hostname: raspberrypi
+strategies:
+  default_strategy: DefaultStrategy
