@@ -36,12 +36,7 @@
 ##  -s, --strategy-file-name    The strategy file name for your .py and .json files
 ##                              EXAMPLE: you have bbrsi.py and bbrsi.json
 ##                              USAGE: -s bbrsi
-##                              NOTE: You can specify the strategy file name and the associated class name inside the config.yml file to make this option non-mandatory
-##
-##  -c, --strategy-class-name   The strategy file name for your .py and .json files
-##                              EXAMPLE: you have bbrsi.py and bbrsi.json
-##                              USAGE: -c bbrsi
-##                              NOTE: You can to specify the strategy file name and the associated class name inside the config.yml file to make this option non-mandatory
+##                              IMPORTANT: You have to specify the strategy file name and the associated class name in the config.yml file
 ##
 ##  -p, --freqtrade-params      Params from freqtrade
 ##                              EXAMPLE: You want to use dynamic white list param
@@ -77,7 +72,6 @@ while :; do
         -u|--username) USERNAME=$3; shift; shift;;      
         -h|--hostname) HOSTNAME=$3; shift; shift;;
         -s|--strategy-file-name) STRATEGY_FILE_NAME=$3; shift; shift;;
-        -c|--strategy-class-name) STRATEGY_CLASS_NAME=$3; shift; shift;;
         -p|--freqtrade-params) FREQTRADE_PARAMS=$3; shift; shift;;
         *) break
     esac
@@ -106,12 +100,8 @@ remote_install() {
 remote_start() {
     USERNAME_AT_SERVER=$1
     STRATEGY_CONTAINER_NAME=$2
-    FREQTRADE_PARAMS=$4
+    FREQTRADE_PARAMS=$3
     TEMP="strategies_$2" && STRATEGY_CLASS=${!TEMP}
-    
-    if ! [ -z "$3" ]; then
-        STRATEGY_CLASS=$3
-    fi
 
     if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ] || [ -z "$STRATEGY_CLASS" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name --strategy-class-name options"
@@ -186,7 +176,7 @@ case $COMMAND in
     init) echo "init";;
     install) remote_install $USERNAME@$HOSTNAME;;
     update) remote_update $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME;;
-    start) remote_start $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME $STRATEGY_CLASS_NAME "$FREQTRADE_PARAMS";;
+    start) remote_start $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME "$FREQTRADE_PARAMS";;
     stop) remote_stop $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME;;
     logs) remote_logs $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME;;
     ps) remote_ps $USERNAME@$HOSTNAME;;
