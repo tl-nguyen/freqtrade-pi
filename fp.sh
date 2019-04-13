@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Usage: ./fdp.sh [commands] [options] arg1
+## Usage: ./fp.sh [commands] [options] arg1
 ## 
 ## Commands:
 ##
@@ -36,7 +36,12 @@
 ##  -s, --strategy-file-name    The strategy file name for your .py and .json files
 ##                              EXAMPLE: you have bbrsi.py and bbrsi.json
 ##                              USAGE: -s bbrsi
-##                              IMPORTANT: You have to specify the strategy file name and the associated class name inside the config.yml file
+##                              NOTE: You can specify the strategy file name and the associated class name inside the config.yml file to make this option non-mandatory
+##
+##  -c, --strategy-class-name   The strategy file name for your .py and .json files
+##                              EXAMPLE: you have bbrsi.py and bbrsi.json
+##                              USAGE: -c bbrsi
+##                              NOTE: You can to specify the strategy file name and the associated class name inside the config.yml file to make this option non-mandatory
 ##
 ##  -p, --freqtrade-params      Params from freqtrade
 ##                              EXAMPLE: You want to use dynamic white list param
@@ -84,6 +89,7 @@ remote_install() {
 
     if [ -z "$USERNAME_AT_SERVER" ]; then
         echo "Error: You have to specify --username and --hostname options"
+        echo "Usage: ./fp.sh install -u [username] -h [hostname]"
     else
         echo "Checking if docker is installed ..."
         DOCKER_CHECK=$(ssh $USERNAME_AT_SERVER "command -v docker")
@@ -108,7 +114,8 @@ remote_start() {
     fi
 
     if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ] || [ -z "$STRATEGY_CLASS" ]; then
-        echo "Error: You have to specify --username, --hostname and --strategy-file-name options"
+        echo "Error: You have to specify --username, --hostname and --strategy-file-name --strategy-class-name options"
+        echo "Usage: ./fp.sh update -u [username] -h [hostname] -s [strategy_file_name] -c [strategy_class_name] -p '(freqtrade_params)'"        
     else
         ssh $USERNAME_AT_SERVER "bash ~/freqtrade/start.sh $STRATEGY_CONTAINER_NAME $STRATEGY_CLASS '$FREQTRADE_PARAMS'"
     fi
@@ -120,6 +127,7 @@ remote_stop() {
 
     if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name options"
+        echo "Usage: ./fp.sh update -u [username] -h [hostname] -s [strategy_file_name]"        
     else
         ssh $USERNAME_AT_SERVER "bash ~/freqtrade/stop.sh $STRATEGY_CONTAINER_NAME"
     fi  
@@ -131,6 +139,7 @@ remote_update() {
 
     if [ -z "$USERNAME_AT_SERVER" || -z "$STRATEGY_CONTAINER_NAME" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name options"
+        echo "Usage: ./fp.sh update -u [username] -h [hostname] -s [strategy_file_name]"    
     else
         echo "Copying $STRATEGY_CONTAINER_NAME.py and $STRATEGY_CONTAINER_NAME.json to server ..."
         scp ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.py ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.json $USERNAME_AT_SERVER:~/freqtrade/strategies 
@@ -150,6 +159,7 @@ remote_logs() {
 
     if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name options"
+        echo "Usage: ./fp.sh logs -u [username] -h [hostname] -s [strategy_file_name]"        
     else 
         ssh $USERNAME_AT_SERVER "sudo docker logs -f $STRATEGY_CONTAINER_NAME"
     fi
@@ -159,8 +169,8 @@ remote_ps() {
     USERNAME_AT_SERVER=$1
 
     if [ -z "$USERNAME_AT_SERVER" ]; then
-        echo "Usage: bash remote_ps.sh [username@server_ip]"
-        echo "Exampl: bash remote_ps.sh pi@192.168.1.10"
+        echo "Error: You have to specify --username, --hostname options"
+        echo "Usage: ./fp.sh ps -u [username] -h [hostname]"        
     else 
         ssh $USERNAME_AT_SERVER "sudo docker ps"
     fi
@@ -181,5 +191,5 @@ case $COMMAND in
     logs) remote_logs $USERNAME@$HOSTNAME $STRATEGY_FILE_NAME;;
     ps) remote_ps $USERNAME@$HOSTNAME;;
     help) help;;
-    *) echo "Try './fdp.sh help' for some more instructions"
+    *) echo "Try './fp.sh help' for some more instructions"
 esac
