@@ -16,8 +16,8 @@
 
 - Clone this repo and get inside the project root:
 ```
-git clone https://github.com/tl-nguyen/freqtrade-with-docker-and-pi.git
-cd freqtrade-with-docker-and-pi
+git clone https://github.com/tl-nguyen/freqtrade-pi.git
+cd freqtrade-pi
 ```
 
 - Modify the `config.yml` file. Add username and hostname of your RPI.
