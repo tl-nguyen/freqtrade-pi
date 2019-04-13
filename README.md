@@ -75,7 +75,7 @@ strategies:
 ## Strategy logs
 - Use `remote_logs.sh` script to see the strategy logs in real time
 ```
-./fp.sh logs bbrsi
+./fp.sh logs -s bbrsi
 ```
 
 ## Check which strategies are running
