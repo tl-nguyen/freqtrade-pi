@@ -14,23 +14,23 @@ git clone https://github.com/tl-nguyen/freqtrade-pi.git
 cd freqtrade-pi
 ```
 
-- Modify the `config.yml` file. Add username and hostname of your RPI.
+- Modify the `config.yml` file. Add username and hostname of your RPI:
 ```
 username: pi
 hostname: 192.168.0.10
 ```
 
-- Learn more about the fp.sh script
+- Learn more about the fp.sh script:
 ```
 ./fp.sh help
 ```
 
-- Install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into PI home directory using remote_install.sh script
+- Install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into RPI home directory:
 ```
 ./fp.sh install
 ```
 
-- Generate SSH keys so you won't be asked when sending commands to your RPI
+- Generate SSH keys so you won't be asked when sending commands to your RPI:
 ```
 ssh-keygen; ssh-copy-id pi@192.168.0.10
 ```
@@ -41,7 +41,7 @@ Press enter a few times when be asked to enter location or passphrase (or enter 
 
 - Rename the strategy class file, json config file with the same name (the extensions stay the same). For example: `bbrsi.py`, `bbrsi.json`
 
-- Move/Update the strategy files into the PI. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files.
+- Move/Update the strategy files into the PI. It's important to use the name of the files (in this case `bbrsi`) as the strategy name. This command will move your strategy files to the PI, if the strategy is running, this command also restart it with the updated files:
 ```
 ./fp.sh update -s bbrsi
 ```
@@ -49,13 +49,13 @@ Press enter a few times when be asked to enter location or passphrase (or enter 
 ## Start the strategy bot
 - If BBRSI is the class name of your strategy (The class defined in the `bbrsi.py` file)
 
-- Modify `config.yml`. Add your strategy file name and strategy class name associated with it in the strategies section.
+- Modify `config.yml`. Add your strategy file name and strategy class name associated with it in the strategies section:
 ```
 strategies:
     bbrsi: BBRSI
 ```
 
-- Start the strategy
+- Start the strategy:
 ```
 ./fp.sh start -s bbrsi
 ```
@@ -66,19 +66,19 @@ strategies:
 ```
 
 ## Stop the strategy bot
-- Use `remote_stop.sh` script to stop and remove the bot
+- Use `remote_stop.sh` script to stop and remove the bot:
 ```
 ./fp.sh stop -s bbrsi
 ```
 
 ## Strategy logs
-- Use `remote_logs.sh` script to see the strategy logs in real time
+- Use `remote_logs.sh` script to see the strategy logs in real time:
 ```
 ./fp.sh logs -s bbrsi
 ```
 
 ## Check which strategies are running
-- Use `remote_ps.sh` script to see which strategies are running right now
+- Use `remote_ps.sh` script to see which strategies are running right now:
 ```
 ./fp.sh ps
 ```
