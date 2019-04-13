@@ -6,10 +6,6 @@
 - Git on your PC/Mac
 
 ## fp.sh Manual
-- Learn more about the fp.sh script
-```
-./fp.sh help
-```
 
 ## Software installation:
 ! From now on, let's say that you have a PI running at `192.168.0.10`, and your username is `pi`
@@ -24,6 +20,11 @@ cd freqtrade-pi
 ```
 username: pi
 hostname: 192.168.0.10
+```
+
+- Learn more about the fp.sh script
+```
+./fp.sh help
 ```
 
 - Install docker, pull the freqtrade image from dockerhub and move the ./freqtrade folder into PI home directory using remote_install.sh script
