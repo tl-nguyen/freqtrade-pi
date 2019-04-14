@@ -127,7 +127,7 @@ remote_update() {
     USERNAME_AT_SERVER=$1
     STRATEGY_CONTAINER_NAME=$2
 
-    if [ -z "$USERNAME_AT_SERVER" || -z "$STRATEGY_CONTAINER_NAME" ]; then
+    if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name options"
         echo "Usage: ./fp.sh update -u [username] -h [hostname] -s [strategy_file_name]"    
     else
@@ -135,8 +135,8 @@ remote_update() {
         scp ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.py ./freqtrade/strategies/$STRATEGY_CONTAINER_NAME.json $USERNAME_AT_SERVER:~/freqtrade/strategies 
 
         echo "Checking if the strategy is running ..."
-        STRATEGY_IS_RUNNING=$(ssh $USERNAME_AT_SERVER "sudo docker ps | grep -q $STRATEGY_CONTAINER_NAME")
-        if [ -z "$STRATEGY_IS_RUNNING" ]; then
+        STRATEGY_IS_RUNNING=$(ssh $USERNAME_AT_SERVER "sudo docker ps | grep $STRATEGY_CONTAINER_NAME")
+        if [ ! -z "$STRATEGY_IS_RUNNING" ]; then
             echo "Restart $STRATEGY_CONTAINER_NAME ..."
             ssh $USERNAME_AT_SERVER "sudo docker restart $STRATEGY_CONTAINER_NAME"
         fi
