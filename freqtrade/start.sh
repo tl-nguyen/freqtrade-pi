@@ -18,6 +18,7 @@ else
    touch ~/freqtrade/strategies/$STRATEGY_CONTAINER_NAME.sqlite
  fi
 
+ echo "Starting strategy $STRATEGY_CLASS with container name $STRATEGY_CONTAINER_NAME ..."
  sudo docker run -d --restart always --name $STRATEGY_CONTAINER_NAME \
  -v /etc/localtime:/etc/localtime:ro \
  -v ~/freqtrade/strategies/$STRATEGY_CONTAINER_NAME.json:/freqtrade/config.json \

@@ -10,7 +10,6 @@ elif sudo docker ps | grep -q $STRATEGY_CONTAINER_NAME; then
     sudo docker stop $STRATEGY_CONTAINER_NAME && sudo docker rm $STRATEGY_CONTAINER_NAME
 
     echo "Do you want to remove $STRATEGY_CONTAINER_NAME.sqlite db file? (y/n)"
-    echo "Enter for skip"
     read answer
     if [ "$answer" == "y" ] && [ -f ~/freqtrade/strategies/$STRATEGY_CONTAINER_NAME.sqlite ]; then
         echo "Removing $STRATEGY_CONTAINER_NAME.sqlite ..."
