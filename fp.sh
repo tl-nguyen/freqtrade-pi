@@ -85,15 +85,12 @@ remote_install() {
         echo "Error: You have to specify --username and --hostname options"
         echo "Usage: ./fp.sh install -u [username] -h [hostname]"
     else
-        echo "Checking if docker is installed ..."
-        DOCKER_CHECK=$(ssh $USERNAME_AT_SERVER "command -v docker")
-        if [ -z "$DOCKER_CHECK" ]; then
-            echo "No Docker in this machine, start installing docker ..."
-            ssh $USERNAME_AT_SERVER "sudo curl -sSL https://get.docker.com | sh && sudo docker pull tlnguyen/freqtrade.pi && mkdir ~/freqtrade"
-        fi
         echo "Updating server scripts ..."
-        sed -i 's/\r$//' ./freqtrade/start.sh && sed -i 's/\r$//' ./freqtrade/stop.sh
-        scp ./freqtrade/start.sh ./freqtrade/stop.sh $USERNAME_AT_SERVER:~/freqtrade
+        for i in server_scripts/*; do
+            sed -i 's/\r$//' $i
+        done
+        scp server_scripts/* $USERNAME_AT_SERVER:~
+        ssh $USERNAME_AT_SERVER "bash ~/install.sh"
     fi
 }
 
@@ -103,9 +100,11 @@ remote_start() {
     FREQTRADE_PARAMS=$3
     TEMP="strategies_$2" && STRATEGY_CLASS=${!TEMP}
 
-    if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ] || [ -z "$STRATEGY_CLASS" ]; then
+    if [ -z "$USERNAME_AT_SERVER" ] || [ -z "$STRATEGY_CONTAINER_NAME" ]; then
         echo "Error: You have to specify --username, --hostname and --strategy-file-name --strategy-class-name options"
         echo "Usage: ./fp.sh update -u [username] -h [hostname] -s [strategy_file_name] -c [strategy_class_name] -p '(freqtrade_params)'"        
+    elif [ -z "$STRATEGY_CLASS" ]; then
+        echo "Error: No strategy class associated with $STRATEGY_CONTAINER_NAME in the config.yml file"
     else
         ssh $USERNAME_AT_SERVER "bash ~/freqtrade/start.sh $STRATEGY_CONTAINER_NAME $STRATEGY_CLASS '$FREQTRADE_PARAMS'"
     fi
